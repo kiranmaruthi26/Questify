@@ -1,0 +1,27 @@
+<div class="exam-list-container">
+    <h2>Active Exams</h2>
+
+    <!-- Loader -->
+    <div *ngIf="loading" class="loading">
+      <span>Loading active exams...</span>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error">
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <div *ngIf="activeExams.length > 0; else noExams">
+        <div class="exam-card" *ngFor="let exam of activeExams">
+          <h3>{{ exam.title }}</h3>
+          <p>{{ exam.description }}</p>
+          <div class="exam-info">
+            <span><strong>Start Date:</strong> {{ exam.startDate | date }}</span>
+          </div>
+        </div>
+    </div>
+
+    <ng-template #noExams>
+      <p class="no-exams">No active exams available right now.</p>
+    </ng-template>
+</div>

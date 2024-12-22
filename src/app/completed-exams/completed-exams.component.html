@@ -1,0 +1,28 @@
+<div class="completed-exam-list-container">
+    <h2>Completed Exams</h2>
+
+    <!-- Loader -->
+    <div *ngIf="loading" class="loading">
+      <span>Loading completed exams...</span>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error">
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <div *ngIf="completedExams.length > 0; else noExams">
+        <div class="completed-exam-card" *ngFor="let exam of completedExams">
+          <h3>{{ exam.title }}</h3>
+          <p>{{ exam.description }}</p>
+          <div class="exam-info">
+            <span><strong>Completion Date:</strong> {{ exam.completionDate | date }}</span>
+          </div>
+          <p class="score"><strong>Score:</strong> {{ exam.score }}</p>
+        </div>
+    </div>
+
+    <ng-template #noExams>
+      <p class="no-exams">No completed exams available right now.</p>
+    </ng-template>
+</div>
