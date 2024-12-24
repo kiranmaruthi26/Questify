@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ExamWindowComponent } from './exam-window/exam-window.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ExamWindowComponent } from './exam-window/exam-window.component';
     HomeComponent,
     ExamListComponent,
     CompletedExamsComponent,
-    ExamWindowComponent
+    ExamWindowComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
