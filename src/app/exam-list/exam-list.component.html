@@ -10,13 +10,16 @@
     <div *ngIf="errorMessage" class="error">
       <p>{{ errorMessage }}</p>
     </div>
-
+    <!-- <div>{{activeExams}}</div> -->
     <div *ngIf="activeExams.length > 0; else noExams">
         <div class="exam-card" *ngFor="let exam of activeExams">
-          <h3>{{ exam.title }}</h3>
-          <p>{{ exam.description }}</p>
+          <h3>{{ exam.exam_tittle }}</h3>
+          <p>{{ exam.exam_description }}</p>
           <div class="exam-info">
-            <span><strong>Start Date:</strong> {{ exam.startDate | date }}</span>
+            <span><strong>Start Date:</strong> {{ exam.exam_start_date | date }}</span>
+          </div>
+          <div>
+            <a [routerLink]="['../exam-window',exam.sys_id]">Start Exam</a>
           </div>
         </div>
     </div>

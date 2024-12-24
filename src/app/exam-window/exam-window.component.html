@@ -1,0 +1,44 @@
+<div #examContainer class="exam-window" [class.blur-screen]="!isFullScreen">
+  <h1>Exam Window</h1>
+  <p *ngIf="webcamStarted">Time Remaining: {{ timeLeft }}</p>
+
+  <div *ngIf="!webcamStarted" class="webcam-warning">
+    <p>Starting webcam... Please allow access to proceed with the exam.</p>
+  </div>
+
+  <div class="webcam-container">
+    <video #webcam autoplay muted></video>
+  </div>
+
+  <div *ngIf="!isFullScreen" class="fullscreen-warning">
+    <p>Please re-enter full screen to continue the exam.</p>
+    <button (click)="enterFullScreen()">Go Full Screen</button>
+  </div>
+
+  <form *ngIf="webcamStarted && questions.length" (ngSubmit)="submitExam()">
+    <div *ngFor="let question of questions" class="question-block">
+      <h3>{{ question.question }}</h3>
+      <ng-container [ngSwitch]="question.type">
+        <div *ngSwitchCase="'multiple-choice'">
+          <label *ngFor="let option of question.options">
+            <input
+              type="radio"
+              [name]="question.id"
+              [value]="option"
+              (change)="userResponses[question.id] = option"
+            />
+            {{ option }}
+          </label>
+        </div>
+        <div *ngSwitchCase="'text'">
+          <textarea
+            [(ngModel)]="userResponses[question.id]"
+            name="{{ question.id }}"
+            rows="4"
+          ></textarea>
+        </div>
+      </ng-container>
+    </div>
+    <button type="submit" [disabled]="isSubmitting">Submit Exam</button>
+  </form>
+</div>

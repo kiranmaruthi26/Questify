@@ -1,5 +1,6 @@
 // exam-list.component.ts
 import { Component, OnInit } from '@angular/core';
+import { ExamService } from '../services/exam.service';
 
 @Component({
   selector: 'app-exam-list',
@@ -11,34 +12,33 @@ export class ExamListComponent implements OnInit {
   loading: boolean = true;
   errorMessage: string = '';
 
+  constructor(private examService: ExamService) {}
+
   ngOnInit(): void {
     this.fetchActiveExams();
   }
 
   fetchActiveExams(): void {
-    // Simulate an API call with dummy data
-    setTimeout(() => {
-      this.activeExams = [
-        {
-          id: 1,
-          title: 'Math Exam',
-          description: 'This is a math exam for Grade 10 students.',
-          startDate: new Date('2024-12-25')
-        },
-        {
-          id: 2,
-          title: 'Science Exam',
-          description: 'This exam covers physics, chemistry, and biology.',
-          startDate: new Date('2024-12-30')
-        },
-        {
-          id: 3,
-          title: 'History Exam',
-          description: 'A comprehensive test on world history.',
-          startDate: new Date('2025-01-05')
+    this.examService.getActiveExams().subscribe(
+      (response: any) => {
+        console.log('API Response:', response);
+
+        // Assuming the data is within a "result" field in the response
+        if (Array.isArray(response)) {
+          this.activeExams = response; // Direct array response
+        } else if (response && response.result) {
+          this.activeExams = response.result; // Nested structure
+        } else {
+          this.activeExams = [];
+          this.errorMessage = 'No exams found in the response.';
         }
-      ];
-      this.loading = false;
-    }, 2000); // Simulate a 2-second delay
+        this.loading = false;
+      },
+      (error) => {
+        this.errorMessage = 'Failed to load active exams. Please try again later.';
+        this.loading = false;
+        console.error('Error fetching active exams:', error);
+      }
+    );
   }
 }
